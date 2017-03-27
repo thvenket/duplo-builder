@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+
+<div id="logInfodiv">
+    <pre id="loginfospan" style="display: none; white-space: pre-wrap;">
+    </pre>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script type="text/javascript">
+  function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+
+  function getZbuildLogInfo(aInRunId) {
+    $.ajax({
+       url: '/admin/FindZBuildLogInfo',
+       data: {
+          RunId: aInRunId
+       },
+       error: function() {
+          console.log('ajax call failed')
+       },
+       dataType: 'json',
+       success: function(data) {
+          console.log('ajax call runid ' + data.RunId);
+          console.log('ajax call passed ' + data.Data)
+          var txt = data.Data;
+          $('#loginfospan').empty().html(txt);
+          $('#loginfospan').show();
+       },
+       type: 'POST',
+    });
+  }
+
+  var lFile = getParameterByName('folder') + '/' + getParameterByName('file');
+  getZbuildLogInfo(lFile);
+</script>
+<p>...Footer</p>
+
+</body>
+</html>

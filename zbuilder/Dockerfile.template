@@ -1,0 +1,7 @@
+FROM __FROM__
+COPY zbuild.sh /zbuild.sh
+COPY zbuildmonitor.py /zbuildmonitor.py
+
+# set up supervisord
+ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ENTRYPOINT ["/bin/bash", "-c", "/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf -n"]
