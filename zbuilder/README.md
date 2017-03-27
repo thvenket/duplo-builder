@@ -1,4 +1,4 @@
-# Clone the Repo replace <OrgName> with your company name
+# Clone the Repo and replace <OrgName> with your company name
 
 # ZBuilder Images
 
