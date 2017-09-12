@@ -39,10 +39,12 @@ namespace ZbuildMonitor
 
             try
             {
+                StartProcess("route.exe", AssemblyDirectory, " DELETE 169.254.169.254");
+                StartProcess("route.exe", AssemblyDirectory, " ADD 169.254.169.254 MASK 255.255.255.255 172.20.128.1");
                 ReadAndValidateEnv();
 
                 // Launch the batch file
-                StartProcess(BATCH_FILE_NAME, AssemblyDirectory);
+                StartProcess(BATCH_FILE_NAME, AssemblyDirectory, string.Empty);
 
                 bool lBuildRunning = true;
                 // Now wait for the batch file to be done
@@ -74,7 +76,7 @@ namespace ZbuildMonitor
             }
             catch(Exception ex)
             {
-                Logger.Writeline("Exception in main logic {0}", ex.Message);
+                Console.WriteLine("Exception in main logic {0}", ex.Message);
             }
 
             // Wait to be killed
@@ -113,7 +115,7 @@ namespace ZbuildMonitor
             S3Client = new AmazonS3Client(Region);
         }
 
-        private static void StartProcess(string aInPath, string aInFolder)
+        private static void StartProcess(string aInPath, string aInFolder, string aInArgs)
         {
 
             ProcessStartInfo stinfo = new ProcessStartInfo();
@@ -124,6 +126,11 @@ namespace ZbuildMonitor
             // true to use the shell when starting the process; otherwise, the process is created directly from the executable file
             stinfo.UseShellExecute = false;
             stinfo.WorkingDirectory = aInFolder;
+            if(!string.IsNullOrEmpty(aInArgs))
+            {
+                stinfo.Arguments = aInArgs;
+            }
+            
             // Creating Process class object to start process
             Process lProcess = new Process();
             lProcess.StartInfo = stinfo;

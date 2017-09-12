@@ -1,3 +1,6 @@
+mkdir code
+cd code
+
 echo "Cloning git repository"
 
 git clone https://%API_TOKEN%@github.com/%GIT_REPO%.git .
@@ -6,7 +9,7 @@ echo "Repository cloned"
 
 echo %CODE_PATH%
 
-\%CODE_PATH%\ci.bat > \zbuild.log | type \zbuild.log
+%CODE_PATH%ci.bat > \zbuild.log | type \zbuild.log
 
 echo "Recording result"
 
