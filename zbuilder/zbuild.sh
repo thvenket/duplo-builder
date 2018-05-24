@@ -17,6 +17,7 @@ git reset --hard $GIT_SHA
 cd .$CODE_PATH
 echo $PWD
 echo "Calling build script"
+chmod 777 ci.sh
 ./ci.sh 2>&1 | tee /zbuild.log
 if [ ${PIPESTATUS[0]} -eq 0 ]
 then
